@@ -1,0 +1,12 @@
+name: Build and Push
+on:
+  push:
+
+jobs:
+  call-workflow-1-in-local-repo:
+    uses: clusterlean/ark/.github/workflows/container.yaml@ci/reuse-build-container
+    with:
+      docker-registry: ghcr.io
+      image-name: ${{ github.repository }}
+    secrets:
+        token: ${{ secrets.GITHUB_TOKEN }}
