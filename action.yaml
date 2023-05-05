@@ -1,0 +1,5 @@
+name: 'Buildship'
+description: 'Build tools included in a Debian image'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
