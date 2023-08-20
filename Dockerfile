@@ -13,3 +13,4 @@ RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 RUN apt update && apt install -y docker.io jq
 RUN curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
+RUN curl -fsSL https://github.com/cli/cli/releases/download/v2.32.1/gh_2.32.1_linux_amd64.tar.gz -o - | tar -xzv -C /usr/local  --transform "s/^gh_2.32.1_linux_amd64\///"
