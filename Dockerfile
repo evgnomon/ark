@@ -1,4 +1,5 @@
 FROM debian:bullseye
+
 RUN apt update && apt install -y curl git clang cmake gettext libbz2-dev libreadline-dev libedit-dev zlib1g-dev pkg-config xz-utils unzip
 ENV PATH "/root/.cargo/bin:/opt/go-1.20.4/bin:/root/.deno/bin:/opt/node-v18.16.0-linux-x64/bin:$PATH"
 RUN curl -fsSL https://github.com/fish-shell/fish-shell/releases/download/3.6.1/fish-3.6.1.tar.xz | tar --lzma -xv -C /opt/ &&\

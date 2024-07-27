@@ -4,6 +4,9 @@ on:
 
 jobs:
   call-workflow-1-in-local-repo:
+    permissions:
+      packages: write
+      contents: read
     uses: evgnomon/ark/.github/workflows/container.yaml@v0.1.0
     with:
       docker-registry: ghcr.io
