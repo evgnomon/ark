@@ -4,7 +4,7 @@ on:
 
 jobs:
   call-workflow-1-in-local-repo:
-    uses: clusterlean/ark/.github/workflows/container.yaml@v0.1.0
+    uses: evgnomon/ark/.github/workflows/container.yaml@v0.1.0
     with:
       docker-registry: ghcr.io
       image-name: ${{ github.repository }}
