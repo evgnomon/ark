@@ -1,17 +1,50 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
-RUN apt update && apt install -y curl git clang cmake gettext libbz2-dev libreadline-dev libedit-dev zlib1g-dev pkg-config xz-utils unzip
-ENV PATH "/root/.cargo/bin:/opt/go-1.20.4/bin:/root/.deno/bin:/opt/node-v18.16.0-linux-x64/bin:$PATH"
-RUN curl -fsSL https://github.com/fish-shell/fish-shell/releases/download/3.6.1/fish-3.6.1.tar.xz | tar --lzma -xv -C /opt/ &&\
-    cd /opt/fish-3.6.1 &&\
+# Define environment variables for versions and paths
+ENV FISH_VERSION=3.7.1 \
+    NODE_VERSION=v20.17.0 \
+    GO_VERSION=1.23.0 \
+    GH_CLI_VERSION=2.32.1 \
+    GOLANGCI_LINT_VERSION=latest \
+    VIRTUAL_ENV=/opt/python
+
+ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/.deno/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:$PATH"
+
+# Install necessary packages
+RUN apt update && apt install -y curl git clang cmake gettext libbz2-dev libreadline-dev libedit-dev zlib1g-dev pkg-config xz-utils unzip python3-pip python3.11-venv
+
+# Install Ansible
+RUN python3 -m venv /opt/python &&\
+    /opt/python/bin/pip install ansible
+
+# Install Fish Shell
+RUN curl -fsSL https://github.com/fish-shell/fish-shell/releases/download/${FISH_VERSION}/fish-${FISH_VERSION}.tar.xz | tar --lzma -xv -C /opt/ &&\
+    cd /opt/fish-${FISH_VERSION} &&\
     cmake -DCMAKE_C_COMPILER=/usr/bin/clang . &&\
     make &&\
     make install &&\
-    rm -rf /opt/fish-3.6.1
-RUN curl -fsSL https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz -o - | tar --lzma -xv -C /opt
-RUN curl -fsSL https://go.dev/dl/go1.20.4.linux-amd64.tar.gz -o - | tar -xzv -C /opt  --transform "s/^go/go-1.20.4/"
+    rm -rf /opt/fish-${FISH_VERSION}
+
+# Install Node.js
+RUN curl -fsSL https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz -o - | tar --lzma -xv -C /opt
+
+# Install Go
+RUN curl -fsSL https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -o - | tar -xzv -C /opt  --transform "s/^go/go-${GO_VERSION}/"
+
+# Install Rust
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+
+# Install Deno
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
+
+# Install Docker and jq
 RUN apt update && apt install -y docker.io jq
+
+# Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
-RUN curl -fsSL https://github.com/cli/cli/releases/download/v2.32.1/gh_2.32.1_linux_amd64.tar.gz -o - | tar -xzv -C /usr/local  --transform "s/^gh_2.32.1_linux_amd64\///"
+
+# Install GitHub CLI
+RUN curl -fsSL https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_amd64.tar.gz -o - | tar -xzv -C /usr/local  --transform "s/^gh_${GH_CLI_VERSION}_linux_amd64\///"
+
+# Install GolangCI-Lint
+RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@${GOLANGCI_LINT_VERSION}
