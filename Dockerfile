@@ -9,7 +9,7 @@ ENV FISH_VERSION=3.7.1 \
     VIRTUAL_ENV=/opt/python \
     DOCKER_COMPOSE_VERSION=2.20.2
 
-ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/go/bin:/root/.deno/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:$PATH"
+ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/go/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:$PATH"
 
 # Install necessary packages
 RUN apt update && apt install -y curl git clang cmake gettext libbz2-dev libreadline-dev libedit-dev zlib1g-dev pkg-config xz-utils unzip python3-pip python3.11-venv
@@ -34,9 +34,6 @@ RUN curl -fsSL https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -o - | tar -
 
 # Install Rust
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
-
-# Install Deno
-RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 
 # Install Docker and jq
 RUN apt update && apt install -y docker.io jq
