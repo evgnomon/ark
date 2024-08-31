@@ -6,9 +6,10 @@ ENV FISH_VERSION=3.7.1 \
     GO_VERSION=1.23.0 \
     GH_CLI_VERSION=2.32.1 \
     GOLANGCI_LINT_VERSION=latest \
-    VIRTUAL_ENV=/opt/python
+    VIRTUAL_ENV=/opt/python \
+    DOCKER_COMPOSE_VERSION=2.20.2
 
-ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/.deno/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:$PATH"
+ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/go/bin:/root/.deno/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:$PATH"
 
 # Install necessary packages
 RUN apt update && apt install -y curl git clang cmake gettext libbz2-dev libreadline-dev libedit-dev zlib1g-dev pkg-config xz-utils unzip python3-pip python3.11-venv
@@ -41,7 +42,7 @@ RUN curl -fsSL https://deno.land/x/install/install.sh | sh
 RUN apt update && apt install -y docker.io jq
 
 # Install Docker Compose
-RUN curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
+RUN curl -L "https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 
 # Install GitHub CLI
 RUN curl -fsSL https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_amd64.tar.gz -o - | tar -xzv -C /usr/local  --transform "s/^gh_${GH_CLI_VERSION}_linux_amd64\///"
