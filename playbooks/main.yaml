@@ -1,0 +1,15 @@
+- name: my playbook
+  hosts: localhost
+  collections:
+    - evgnomon.catamaran
+  vars_files:
+    - defaults/main.yaml
+  tasks:
+    - set_fact:
+        secrets: "{{ lookup('file', lookup('env','INPUT_VAULT_FILE')) | from_yaml }}"
+      no_log: true
+    - gh_image:
+        token: '{{ lookup("env", "INPUT_GITHUB_TOKEN") or secrets.github_pat }}'
+        image: ark
+        owner: evgnomon
+        state: '{{ "absent" if event_name == "delete" else "present" }}'
