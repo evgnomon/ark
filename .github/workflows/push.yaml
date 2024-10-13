@@ -2,8 +2,9 @@ name: Build and Push
 on:
   push:
     branches:
-      - main2
-      - master2
+      - "*"
+    tags:
+      - "*"
 
 jobs:
   call-workflow-1-in-local-repo:
