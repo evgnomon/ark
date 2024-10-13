@@ -4,10 +4,14 @@
     - evgnomon.catamaran
   vars_files:
     - defaults/main.yaml
+  vars: 
+    github_event: "{{ lookup('file', lookup('env', 'GITHUB_EVENT_PATH')) | from_json if lookup('env', 'GITHUB_EVENT_PATH') else {} }}"
   tasks:
     - set_fact:
         secrets: "{{ lookup('file', lookup('env','INPUT_VAULT_FILE')) | from_yaml }}"
       no_log: true
+    - debug:
+        msg: "{{ github_event }}"
     - gh_image:
         token: '{{ lookup("env", "INPUT_GITHUB_TOKEN") or secrets.github_pat }}'
         image: ark
