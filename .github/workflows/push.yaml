@@ -1,6 +1,10 @@
 name: Build and Push
 on:
   push:
+    branches:
+      - "*"
+    tags:
+      - "*"
 
 jobs:
   call-workflow-1-in-local-repo:
