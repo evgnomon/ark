@@ -1,17 +1,8 @@
-- name: my playbook
+---
+- name: Build container image
   hosts: localhost
   collections:
     - evgnomon.catamaran
-  vars_files:
-    - defaults/main.yaml
-  vars: 
-    github_event: "{{ lookup('file', lookup('env', 'GITHUB_EVENT_PATH')) | from_json if lookup('env', 'GITHUB_EVENT_PATH') else {} }}"
-  tasks:
-    - set_fact:
-        secrets: "{{ lookup('file', lookup('env','INPUT_VAULT_FILE')) | from_yaml }}"
-      no_log: true
-    - gh_image:
-        token: '{{ lookup("env", "INPUT_GITHUB_TOKEN") or secrets.github_pat }}'
-        image: ark
-        owner: evgnomon
-        state: '{{ "absent" if event_name == "delete" else "present" }}'
+  roles:
+    - role: z_container
+

@@ -14,6 +14,8 @@ on:
 jobs:
   yacht:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/evgnomon/barge:main
     permissions:
       contents: read
       packages: write
@@ -25,3 +27,4 @@ jobs:
         vault: ${{ secrets.VAULT_FILE }}
         vault_pass: ${{ secrets.VAULT_PASS }}
         github_token: ${{ secrets.GITHUB_TOKEN }}
+
