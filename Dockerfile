@@ -10,7 +10,7 @@ ENV FISH_VERSION=4.2.1 \
     DOCKER_COMPOSE_VERSION=5.0.1 \
     ZIG_VERSION=0.16.0-dev.1634+b27bdd5af
 
-ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/go/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:/opt/zig-linux-x86_64-${ZIG_VERSION}:$PATH"
+ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/go/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:/opt/zig-x86_64-linux-${ZIG_VERSION}:$PATH"
 
 # Install necessary packages
 RUN apt update && apt install -y curl git clang cmake gettext libbz2-dev libreadline-dev libedit-dev zlib1g-dev pkg-config xz-utils unzip python3-pip python3.11-venv libpcre2-dev
