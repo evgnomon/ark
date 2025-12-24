@@ -7,9 +7,10 @@ ENV FISH_VERSION=4.2.1 \
     GH_CLI_VERSION=2.83.2 \
     GOLANGCI_LINT_VERSION=latest \
     VIRTUAL_ENV=/opt/python \
-    DOCKER_COMPOSE_VERSION=5.0.1
+    DOCKER_COMPOSE_VERSION=5.0.1 \
+    ZIG_VERSION=0.16.0-dev.1634+b27bdd5af
 
-ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/go/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:$PATH"
+ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/go/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:/opt/zig-linux-x86_64-${ZIG_VERSION}:$PATH"
 
 # Install necessary packages
 RUN apt update && apt install -y curl git clang cmake gettext libbz2-dev libreadline-dev libedit-dev zlib1g-dev pkg-config xz-utils unzip python3-pip python3.11-venv libpcre2-dev
@@ -46,3 +47,6 @@ RUN curl -fsSL https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/g
 
 # Install GolangCI-Lint
 RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@${GOLANGCI_LINT_VERSION}
+
+# Install Zig
+RUN curl -fsSL https://ziglang.org/builds/zig-x86_64-linux-${ZIG_VERSION}.tar.xz -o - | tar --lzma -xv -C /opt
