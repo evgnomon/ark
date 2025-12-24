@@ -1,13 +1,13 @@
 FROM debian:bookworm
 
 # Define environment variables for versions and paths
-ENV FISH_VERSION=3.7.1 \
-    NODE_VERSION=v22.0.0 \
-    GO_VERSION=1.24.0 \
-    GH_CLI_VERSION=2.54.0 \
+ENV FISH_VERSION=4.2.1 \
+    NODE_VERSION=v24.12.0 \
+    GO_VERSION=1.25.5 \
+    GH_CLI_VERSION=2.83.2 \
     GOLANGCI_LINT_VERSION=latest \
     VIRTUAL_ENV=/opt/python \
-    DOCKER_COMPOSE_VERSION=2.29.2
+    DOCKER_COMPOSE_VERSION=5.0.1
 
 ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/go/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:$PATH"
 
