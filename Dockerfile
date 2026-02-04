@@ -8,7 +8,7 @@ ENV FISH_VERSION=4.2.1 \
     GOLANGCI_LINT_VERSION=latest \
     VIRTUAL_ENV=/opt/python \
     DOCKER_COMPOSE_VERSION=5.0.1 \
-    ZIG_VERSION=0.16.0-dev.1634+b27bdd5af
+    ZIG_VERSION=0.16.0-dev.2471+e9eadee00
 
 ENV PATH="/root/.cargo/bin:/opt/go-${GO_VERSION}/bin:/root/go/bin:/opt/node-${NODE_VERSION}-linux-x64/bin:/opt/python/bin:/opt/zig-x86_64-linux-${ZIG_VERSION}:$PATH"
 
