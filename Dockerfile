@@ -33,7 +33,7 @@ ENV NODE_VERSION=v24.13.1 \
     GH_CLI_VERSION=2.87.2 \
     GOLANGCI_LINT_VERSION=latest \
     DOCKER_COMPOSE_VERSION=5.0.2 \
-    ZIG_VERSION=0.16.0-dev.2535+b5bd49460 \
+    ZIG_VERSION=0.16.0 \
     PYTHON_VERSION=3.14.3
 
 # Copy Python 3.14 built from source
@@ -72,3 +72,18 @@ RUN apt update && apt install -y docker.io jq
 
 # Install Ansible
 RUN /opt/python/bin/pip3 install ansible uv
+
+ENV ANSIBLE_COLLECTIONS_PATH=/opt/ansible/collections \
+    CATAMARAN_VERSION=0.2.18 \
+    EGET_VERSION=v1.3.4 \
+    MKDEB_VERSION=0.3.0
+
+RUN /opt/python/bin/pip3 install catamaran==${CATAMARAN_VERSION} hcloud poetry \
+  && ansible-galaxy collection install evgnomon.catamaran --collections-path ${ANSIBLE_COLLECTIONS_PATH} \
+  && go install github.com/zyedidia/eget@${EGET_VERSION} \
+  && go install github.com/digitalocean/doctl/cmd/doctl@latest
+
+COPY evgnomon.asc /etc/apt/trusted.gpg.d/
+COPY evgnomon.sources /etc/apt/sources.list.d/
+
+RUN apt-get update && apt-get install -y mkdeb=$MKDEB_VERSION tree
